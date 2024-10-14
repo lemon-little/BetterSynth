@@ -1,0 +1,19 @@
+dataset_path: /mnt/lustre/caipengxiang/project/better_synth/dj_synth_challenge/input/pretrain_stage_2/mgm_pretrain_stage_2-simi-sort-last5k.jsonl
+export_path: /mnt/lustre/caipengxiang/project/better_synth/dj_synth_challenge/input/pretrain_stage_2/mgm_pretrain_stage_2-simi-sort-last5k-recaption.jsonl
+
+np: 4                                                           # number of subprocess to process your dataset
+text_keys: 'text'
+image_key: 'images' 
+image_special_token: '<__dj__image>'                                    # The special token that represents an image in the text. For LLaVA, it's "<image>". Should be aligned with the args when running conversion tools.
+eoc_special_token: '<|__dj__eoc|>'                                # The special token that represents the end of a chunk in the text. In default, it's "<|__dj__eoc|>". You can specify your own special token according to your input dataset. Should be aligned with the args when running conversion tools.
+
+
+process:
+  - image_captioning_mapper:                                # generate captions for images to augment datasets
+      hf_img2seq: 'Salesforce/blip2-opt-2.7b'                 # model name on huggingface to generate caption
+      caption_num: 1                                          # how many candidate captions to generate for each image
+      keep_candidate_mode: 'random_any'                       # retain strategy for the generated $caption_num$ candidates. should be in ["random_any", "similar_one_simhash", "all"].
+      keep_original_sample: false                             # whether to keep the original sample. If it's set to False, there will be only generated captions in the final datasets and the original captions will be removed. It's True in default.
+      prompt: null                                            # a string prompt to guide the generation of blip2 model for all samples globally. It's None in default, which means no prompt provided.
+      prompt_key: null                                        # the key name of fields in samples to store prompts for each sample. It's used for set different prompts for different samples. If it's none, use prompt in parameter "prompt". It's None in default.
+      mem_required: '16GB'                                    # This operation (Op) utilizes deep neural network models that consume a significant amount of memory for computation, hence the system's available memory might constrains the maximum number of processes that can be launched
