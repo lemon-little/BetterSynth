@@ -1,0 +1,2 @@
+# BetterSynth
+天池Better Synth多模态大模型数据合成挑战赛-打赢baseline就算成功方案
