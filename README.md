@@ -46,7 +46,7 @@
 
 ## 工具 
 
-data-juicer
+[data-juicer](https://github.com/modelscope/data-juicer)
 
 ## 方案实施过程
 
